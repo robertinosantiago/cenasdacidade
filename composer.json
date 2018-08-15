@@ -1,0 +1,14 @@
+{
+    "name": "robertino/cenasdacidade",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Robertino Mendes Santiago Junior",
+            "email": "robertino@ufpr.br"
+        }
+    ],
+    "require": {
+        "hybridauth/hybridauth" : "@dev"
+    }
+}
