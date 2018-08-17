@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/sandstone/bootstrap.min.css" rel="stylesheet" integrity="sha384-CfCAYEgrdtRrpvjGKxoaRy5ge1ggMbxNSpEkY+XqdfdRTUkRrYZVB2z99E7BsEDZ" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <title>{% block title %}{% endblock %} - Cenas da Cidade</title>
+    {% endblock %}
+  </head>
+  <body>
+    <div class="container-fluid bg-dark">
+      <div class="row text-center">
+        <div class="col">
+          <img class="img-fluid" src="imagens/logo-2.png" alt="Logotipo do Concurso">
+        </div>
+      </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item {{ ativo == 'inicio' ? 'active' : '' }}">
+            <a class="nav-link" href="index.php">Início <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item {{ ativo == 'regulamento' ? 'active' : '' }}">
+            <a class="nav-link" href="regulamento.php">Regulamento</a>
+          </li>
+          <li class="nav-item {{ ativo == 'comoparticipar' ? 'active' : '' }}">
+            <a class="nav-link" href="comoparticipar.php">Como participar</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Galeria</a>
+          </li>
+          {% if not user %}
+          <li class="nav-item {{ ativo == 'login' ? 'active' : '' }}">
+            <a class="nav-link" href="login.php">
+              Acessar
+            </a>
+          </li>
+          {% else %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Usuário
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="dashboard.php">Enviar fotos</a>
+              <div class="dropdown-divider"></div>
+              {% if loggedIn %}
+              <a class="dropdown-item" href="callback.php?logout={{ loggedIn }}">Sair</a>
+              {% else %}
+              <a class="dropdown-item" href="logout.php">Sair</a>
+              {% endif %}
+            </div>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    {% block content %}{% endblock %}
+    <footer>
+      {% block footer %}
+
+      {% endblock %}
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

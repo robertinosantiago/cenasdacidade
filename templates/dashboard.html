@@ -1,0 +1,14 @@
+{% extends "default.html" %}
+{% set ativo = 'enviar' %}
+
+{% block title %}Enviar fotos{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row">
+    <div class="col">
+      {{ user['User']['full_name'] }}
+    </div>
+  </div>
+</div>
+{% endblock %}

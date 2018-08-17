@@ -9,6 +9,7 @@
         }
     ],
     "require": {
-        "hybridauth/hybridauth" : "@dev"
+        "hybridauth/hybridauth" : "@dev",
+        "twig/twig": "^2.0"
     }
 }
