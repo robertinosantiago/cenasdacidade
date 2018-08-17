@@ -6,8 +6,77 @@
 {% block content %}
 <div class="container py-5">
   <div class="row">
+    <div class="col-12 col-md-2">
+      {% if user['User']['photo'] %}
+        <img class="img-fluid img-thumbnail" src="{{ user['User']['photo'] }}" alt="user['User']['full_name']">
+      {% else %}
+        <img class="img-fluid img-thumbnail" src="imagens/user-icon.png" alt="user['User']['full_name']">
+      {% endif %}
+    </div>
+    <div class="col-12 col-md-10">
+      <h1>
+        {{ user['User']['full_name'] }}
+      </h1>
+      <h5>
+        {{ user['User']['email'] }}
+      </h5>
+    </div>
+  </div>
+  <div class="row py-3">
     <div class="col">
-      {{ user['User']['full_name'] }}
+      <div class="card">
+        <div class="card-header">
+          Enviar nova foto
+        </div>
+        <div class="card-body">
+          <form class="" action="upload.php" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="titulo">Título da foto</label>
+              <input required type="text" class="form-control" name="titulo" id="titulo" aria-describedby="tituloHelp" placeholder="Informe o título da foto">
+              <small id="tituloHelp" class="form-text text-muted">Informe um título que descreva sua fotografia.</small>
+            </div>
+            <div class="form-group">
+              <label for="arquivo">Arquivo</label>
+              <input required name="arquivo" type="file" class="form-control-file" id="arquivo" accept="image/png, image/jpeg">
+            </div>
+            <button class="btn btn-success" type="submit">
+                Enviar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row py-3">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          Fotos enviadas
+        </div>
+        <div class="card-body">
+          {% if not photos %}
+            <h5>Você não enviou nenhuma foto ainda.</h5>
+          {% else %}
+            {% for photo in photos %}
+            <div class="row">
+              <div class="col-12 col-md-5">
+                <img class="my-2 img-fluid img-thumbnail" src="photo.php?photo={{ photo.path }}" alt="{{ photo.title }}">
+              </div>
+              <div class="col-8 col-md-5">
+                {{ photo.title }}
+              </div>
+              <div class="col-4 col-md-2 text-right">
+                <a href="#" class="btn btn-danger">Excluir</a>
+              </div>
+            </div>
+            {% endfor %}
+
+          {% endif %}
+        </div>
+        <div class="card-footer">
+          * Você pode participar com no máximo 5 fotos.
+        </div>
+      </div>
     </div>
   </div>
 </div>

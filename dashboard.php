@@ -1,6 +1,8 @@
 <?php
 include 'vendor/autoload.php';
 include 'config.inc.php';
+require_once 'Dao/PhotoDao.php';
+
 use Hybridauth\Hybridauth;
 use Hybridauth\Storage\Session;
 $hybridauth = new Hybridauth($config);
@@ -15,7 +17,10 @@ $user = $storage->get('user');
 
 if ($user) {
   $loggedIn = $storage->get('loggedIn');
-  echo $twig->render('dashboard.html', array('user' => $user, 'loggedIn' => $loggedIn));
+  $photos = PhotoDao::getInstance()->findByUserId($user['User']['id']);
+
+
+  echo $twig->render('dashboard.html', array('user' => $user, 'photos' => $photos, 'loggedIn' => $loggedIn));
 } else {
   echo $twig->render('inicio.html');
 }

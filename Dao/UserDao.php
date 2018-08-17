@@ -8,6 +8,7 @@ require_once 'model/User.php';
 class UserDao
 {
     public static $instance;
+    private $table = 'cc_users';
 
     private function __construct()
     {
@@ -26,7 +27,7 @@ class UserDao
     public function insert($user)
     {
       try {
-        $sql = 'INSERT INTO cc_users '.
+        $sql = 'INSERT INTO '. $this->table . ' ' .
         '(first_name, last_name, email, password, photo) '.
         'VALUES '.
         '(:first, :last, :email, :password, :photo)';
@@ -52,7 +53,7 @@ class UserDao
     public function findByEmail($email)
     {
         try {
-            $sql = 'SELECT * FROM cc_users WHERE email = :email';
+            $sql = 'SELECT * FROM ' . $this->table . ' WHERE email = :email';
             $psql = Database::getInstance()->prepare($sql);
             $psql->bindValue(':email', $email);
             $psql->execute();
