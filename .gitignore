@@ -1,4 +1,5 @@
 config.inc.php
 config-web.inc.php
 /vendor/
-
+/photos/*
+!/photos/index.html
