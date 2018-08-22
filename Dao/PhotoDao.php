@@ -67,6 +67,32 @@ class PhotoDao
         }
     }
 
+    public function findById($id) {
+      try {
+          $sql = 'SELECT * FROM ' . $this->table . ' WHERE id = :id';
+          $psql = Database::getInstance()->prepare($sql);
+          $psql->bindValue(':id', $id);
+          $psql->execute();
+          $row = $psql->fetch(PDO::FETCH_ASSOC);
+          if (!$row) return false;
+          return $this->populatePhoto($row);
+      } catch (\Exception $e) {
+        print('Error: '. $e->getMessage());
+      }
+    }
+
+    public function delete($id) {
+      try {
+          $sql = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+          $psql = Database::getInstance()->prepare($sql);
+          $psql->bindValue(':id', $id);
+          $result = $psql->execute();
+          return $result;
+      } catch (\Exception $e) {
+        print('Error: '. $e->getMessage());
+      }
+    }
+
     private function populatePhoto($row)
     {
       $photo = new Photo();

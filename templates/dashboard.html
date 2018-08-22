@@ -3,6 +3,15 @@
 
 {% block title %}Enviar fotos{% endblock %}
 
+{% block head %}
+{{ parent() }}
+<style type="text/css">
+  .photos .row:nth-of-type(odd) {
+    background-color: #f3f3f3;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container py-5">
   <div class="row">
@@ -53,20 +62,25 @@
         <div class="card-header">
           Fotos enviadas
         </div>
-        <div class="card-body">
+        <div class="card-body photos">
           {% if not photos %}
             <h5>Você não enviou nenhuma foto ainda.</h5>
           {% else %}
             {% for photo in photos %}
             <div class="row">
-              <div class="col-12 col-md-5">
+              <div class="col-12 col-md-5 py-2">
                 <img class="my-2 img-fluid img-thumbnail" src="photo.php?photo={{ photo.path }}" alt="{{ photo.title }}">
               </div>
-              <div class="col-8 col-md-5">
+              <div class="col-8 col-md-5 py-2">
                 {{ photo.title }}
               </div>
-              <div class="col-4 col-md-2 text-right">
-                <a href="#" class="btn btn-danger">Excluir</a>
+              <div class="col-4 col-md-2 py-2 text-right">
+                <form action="delete.php" method="post" onsubmit="return submitDelete();">
+                  <input type="hidden" name="photo" value="{{ photo.id }}">
+                  <button class="btn btn-danger" type="submit">
+                      Excluir
+                  </button>
+                </form>
               </div>
             </div>
             {% endfor %}
@@ -80,4 +94,18 @@
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+  function submitDelete() {
+    let res = confirm("Deseja realmente excluir esta foto?");
+
+    if(res)
+      return true;
+    else
+      return false;
+
+  }
+</script>
 {% endblock %}
