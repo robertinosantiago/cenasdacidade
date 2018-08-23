@@ -2,11 +2,6 @@
 $path = $_GET['photo'];
 error_log(__DIR__ . '/photos/'.$path);
 
-// $img = imagecreatefromjpeg('photos/' . $path);
-// header('Content-Type: image/jpeg');
-// imagejpeg($img);
-// imagedestroy($img);
-
 $type = exif_imagetype('photos/' . $path); // [] if you don't have exif you could use getImageSize()
 $allowedTypes = array(
     1,  // [] gif

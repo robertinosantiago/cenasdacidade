@@ -3,6 +3,7 @@ include 'vendor/autoload.php';
 include 'config.inc.php';
 use Hybridauth\Hybridauth;
 use Hybridauth\Storage\Session;
+
 $hybridauth = new Hybridauth($config);
 
 
@@ -13,6 +14,8 @@ $twig = new Twig_Environment($loader, array(
 
 $storage = new Session();
 $user = $storage->get('user');
+
+$toast = array('type' => 'success', 'message' => 'Seja bem vindo!');
 
 if ($user) {
   $loggedIn = $storage->get('loggedIn');

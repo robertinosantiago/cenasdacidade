@@ -19,8 +19,8 @@ if ($user) {
   $loggedIn = $storage->get('loggedIn');
   $photos = PhotoDao::getInstance()->findByUserId($user['User']['id']);
 
-
   echo $twig->render('dashboard.html', array('user' => $user, 'photos' => $photos, 'loggedIn' => $loggedIn));
 } else {
-  echo $twig->render('inicio.html');
+  $toast = array('type' => 'info', 'message' => 'Por favor, acesse sua conta.');
+  echo $twig->render('login.html', array('toast' => $toast));
 }

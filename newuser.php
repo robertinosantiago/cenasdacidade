@@ -1,6 +1,7 @@
 <?php
 include 'vendor/autoload.php';
 use Hybridauth\HttpClient;
+use Hybridauth\Storage\Session;
 require_once 'Dao/UserDao.php';
 require_once 'model/User.php';
 
@@ -8,6 +9,8 @@ $loader = new Twig_Loader_Filesystem(__DIR__ . '/templates');
 $twig = new Twig_Environment($loader, array(
     // 'cache' => __DIR__ . '/cache',
 ));
+
+$toast = false;
 
 function validaForm($dados) {
 
@@ -18,7 +21,7 @@ function validaForm($dados) {
   return true;
 }
 
-if (isset($_POST)) {
+if ($_POST) {
   if (validaForm($_POST)) {
     $user = UserDao::getInstance()->findByEmail($_POST['email']);
     if (!$user) {
@@ -26,7 +29,7 @@ if (isset($_POST)) {
       $user->setFirstName($_POST['first_name']);
       $user->setLastName($_POST['last_name']);
       $user->setEmail($_POST['email']);
-      
+
       $user->setPassword(password_hash($_POST['password'], PASSWORD_DEFAULT));
       //$user->setPhoto($userProfile->photoURL);
       $user->setRule('user');
@@ -34,18 +37,20 @@ if (isset($_POST)) {
       $newUser = UserDao::getInstance()->insert($user);
 
       if ($newUser){
-        HttpClient\Util::redirect('index.php');
+        $storage = new Session();
+        $storage->set('user', $newUser->toArray());
+        HttpClient\Util::redirect('dashboard.php');
       } else {
-        // TODO: Não foi possível salvar
+        $toast = array('type' => 'error', 'message' => 'Não foi possível salvar seus dados.');
       }
 
     } else {
-      // TODO: Indicar que já existe um usuario com este email.
+      $toast = array('type' => 'error', 'message' => 'Já existe uma conta associada a este email.');
     }
   } else {
-    // TODO: Lançar erro
+    $toast = array('type' => 'error', 'message' => 'Você deve preencher todos os campos.');
   }
 
 }
 
-echo $twig->render('newuser.html');
+echo $twig->render('newuser.html', array('toast' => $toast));

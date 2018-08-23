@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/sandstone/bootstrap.min.css" rel="stylesheet" integrity="sha384-CfCAYEgrdtRrpvjGKxoaRy5ge1ggMbxNSpEkY+XqdfdRTUkRrYZVB2z99E7BsEDZ" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <link rel="stylesheet" href="css/iziToast.min.css" />
     <title>{% block title %}{% endblock %} - Cenas da Cidade</title>
     {% endblock %}
   </head>
@@ -73,6 +73,18 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script src="js/iziToast.min.js" charset="utf-8"></script>
     {% block scripts %}{% endblock %}
+    {% if toast %}
+    <script>
+      {% if (toast.type == 'success')  %}
+        iziToast.success({message: '{{ toast.message}}' });
+      {% elseif (toast.type == 'error') %}
+        iziToast.error({message: '{{ toast.message}}' });
+      {% else %}
+        iziToast.info({message: '{{ toast.message}}' });
+      {% endif %}
+    </script>
+    {% endif %}
   </body>
 </html>

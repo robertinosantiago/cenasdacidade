@@ -11,10 +11,15 @@ $twig = new Twig_Environment($loader, array(
 ));
 
 $storage = new Session();
+$toast = null;
 
 function validaForm($dados) {
 
   if (!isset($_POST['email']) && empty($_POST['email'])) {
+    return false;
+  }
+
+  if (!isset($_POST['password']) && empty($_POST['password'])) {
     return false;
   }
 
@@ -23,25 +28,38 @@ function validaForm($dados) {
 
 if ($_POST) {
   if (!validaForm($_POST)) {
-    // TODO: deve ser informado um email e senha
-    error_log("nao validado");
-    HttpClient\Util::redirect('index.php');
+    HttpClient\Util::redirect('index.php?e=2');
   }
 
   $user = UserDao::getInstance()->findByEmail($_POST['email']);
   if (!$user) {
-    // TODO: Usuário não existe
-    error_log("nao achei email");
-    HttpClient\Util::redirect('login.php');
+    HttpClient\Util::redirect('login.php?e=3');
   }
 
   if (!password_verify($_POST['password'], $user->getPassword())) {
-    // TODO: senha não confere
-    HttpClient\Util::redirect('login.php');
+    HttpClient\Util::redirect('login.php?e=4');
   }
 
   $storage->set('user', $user->toArray());
   HttpClient\Util::redirect('dashboard.php');
 }
 
-echo $twig->render('login.html');
+if(isset($_GET['e'])) {
+  $e = $_GET['e'];
+  switch ($e) {
+    case 1:
+      $toast = array('type' => 'info', 'message' => 'Por favor, acesse sua conta.');
+      break;
+    case 2:
+      $toast = array('type' => 'error', 'message' => 'Você deve preencher todos os campos.');
+      break;
+    case 3:
+      $toast = array('type' => 'error', 'message' => 'Não há uma conta associada a este email.');
+      break;
+    case 4:
+      $toast = array('type' => 'error', 'message' => 'Senha não confere.');
+      break;
+  }
+}
+
+echo $twig->render('login.html', array('toast' => $toast));
