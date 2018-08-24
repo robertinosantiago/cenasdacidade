@@ -21,6 +21,12 @@ if (!$user) {
   HttpClient\Util::redirect('login.php?e=1');
 }
 
+$total = PhotoDao::getInstance()->countByUserId($user['User']['id']);
+
+if ($total >= 5) {
+  HttpClient\Util::redirect('dashboard.php?e=4');
+}
+
 $target_dir = "photos/";
 $target_file = $target_dir . basename($_FILES["arquivo"]["name"]);
 $uploadOk = 1;

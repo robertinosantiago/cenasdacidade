@@ -38,6 +38,7 @@
           Enviar nova foto
         </div>
         <div class="card-body">
+          {% if total < 5 %}
           <form class="" action="upload.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
               <label for="titulo">Título da foto</label>
@@ -52,6 +53,11 @@
                 Enviar
             </button>
           </form>
+          {% else %}
+          <div class="alert alert-info" role="alert">
+            Você já enviou o limite máximo por participante.
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -60,7 +66,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-          Fotos enviadas
+          Fotos enviadas: {{ total }} de 5 permitidas
         </div>
         <div class="card-body photos">
           {% if not photos %}
@@ -71,7 +77,7 @@
               <div class="col-12 col-md-5 py-2">
                 <img class="my-2 img-fluid img-thumbnail" src="photo.php?photo={{ photo.path }}" alt="{{ photo.title }}">
               </div>
-              <div class="col-8 col-md-5 py-2">
+              <div class="col-8 col-md-5 py-2 text-justify">
                 {{ photo.title }}
               </div>
               <div class="col-4 col-md-2 py-2 text-right">

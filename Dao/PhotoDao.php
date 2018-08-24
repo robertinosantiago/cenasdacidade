@@ -48,6 +48,19 @@ class PhotoDao
 
     }
 
+    public function countByUserId($user_id) {
+      try {
+          $sql = 'SELECT COUNT(id) FROM ' . $this->table . ' WHERE user_id = :user_id';
+          $psql = Database::getInstance()->prepare($sql);
+          $psql->bindValue(':user_id', $user_id);
+          $psql->execute();
+          $total = (int) $psql->fetchColumn(0);
+          return $total;
+      } catch (\Exception $e) {
+        print('Error: '. $e->getMessage());
+      }
+    }
+
     public function findByUserId($user_id)
     {
         try {

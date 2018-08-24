@@ -29,6 +29,8 @@ if(isset($_GET['e'])) {
     case 3:
       $toast = array('type' => 'success', 'message' => 'Foto removida com sucesso.');
       break;
+    case 4:
+      $toast = array('type' => 'error', 'message' => 'Cada partipante pode enviar no máximo 5 (cinco) fotos.');
   }
 }
 
@@ -36,7 +38,9 @@ if ($user) {
   $loggedIn = $storage->get('loggedIn');
   $photos = PhotoDao::getInstance()->findByUserId($user['User']['id']);
 
-  echo $twig->render('dashboard.html', array('toast' => $toast, 'user' => $user, 'photos' => $photos, 'loggedIn' => $loggedIn));
+  $total = PhotoDao::getInstance()->countByUserId($user['User']['id']);
+
+  echo $twig->render('dashboard.html', array('toast' => $toast, 'user' => $user, 'photos' => $photos, 'total' => $total, 'loggedIn' => $loggedIn));
 } else {
   $toast = array('type' => 'info', 'message' => 'Por favor, acesse sua conta.');
   echo $twig->render('login.html', array('toast' => $toast));
