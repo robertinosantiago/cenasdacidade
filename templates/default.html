@@ -70,8 +70,8 @@
           <li class="nav-item {{ ativo == 'comoparticipar' ? 'active' : '' }}">
             <a class="nav-link" href="comoparticipar.php">Como participar</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Galeria</a>
+          <li class="nav-item {{ ativo == 'galeria' ? 'active' : '' }}">
+            <a class="nav-link" href="galeria.php">Galeria</a>
           </li>
           {% if not user %}
           <li class="nav-item {{ ativo == 'login' ? 'active' : '' }}">
