@@ -1,0 +1,93 @@
+{% extends "default.html" %}
+{% set ativo = 'avaliacao' %}
+
+{% block title %}Avaliação de fotografias{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row">
+    <div class="col">
+      <h2>Avaliação de fotografias</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col text-justify">
+      {% if not photos %}
+      <h5>Você não possui mais fotos para avaliar.</h5>
+      {% else %}
+      <form class="" action="evaluate.php" method="post">
+
+        <div class="card">
+          <div class="card-header">
+            <strong>Fotos restantes para avaliar:</strong> {{ total }} fotos
+          </div>
+          <div class="card-body photos">
+            {% for photo in photos %}
+            <input type="hidden" name="photo_id" value="{{ photo.id }}">
+            <div class="row">
+              <div class="col">
+                {{ photo.title }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <img class="my-2 img-fluid img-thumbnail" src="photo.php?photo={{ photo.path }}" alt="{{ photo.title }}">
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+          <div class="card-footer text-center">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rate" id="rate1" value="1">
+              <label class="form-check-label" for="rate1">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rate" id="rate2" value="2">
+              <label class="form-check-label" for="rate2">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rate" id="rate3" value="3">
+              <label class="form-check-label" for="rate3">3</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rate" id="rate4" value="4">
+              <label class="form-check-label" for="rate4">4</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rate" id="rate5" value="5">
+              <label class="form-check-label" for="rate5">5</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rate" id="rate6" value="6">
+              <label class="form-check-label" for="rate6">6</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rate" id="rate7" value="7">
+              <label class="form-check-label" for="rate7">7</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rate" id="rate8" value="8">
+              <label class="form-check-label" for="rate8">8</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rate" id="rate9" value="9">
+              <label class="form-check-label" for="rate9">9</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rate" id="rate10" value="10">
+              <label class="form-check-label" for="rate10">10</label>
+            </div>
+
+            <button class="btn btn-success" type="submit">
+              Avaliar
+            </button>
+          </div>
+        </div>
+      </form>
+
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

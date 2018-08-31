@@ -106,6 +106,62 @@ class PhotoDao
       }
     }
 
+    public function countUnratedPhotos($appraiser_id) {
+      try {
+        $sql = 'SELECT COUNT(p.id) FROM cc_ratings r ';
+        $sql .= 'RIGHT join cc_photos p on (p.id = r.photo_id) ';
+        $sql .= 'where p.id not in (select p.id from cc_ratings r ';
+        $sql .= 'inner join cc_photos p on (p.id = r.photo_id) ';
+        $sql .= 'inner join cc_users u ON (u.id = r.user_id) ';
+        $sql .= 'where u.id = ' . $appraiser_id . ') ';
+
+        // $sql = 'SELECT COUNT(p.id) FROM ' . $this->table . ' p ';
+        // $sql .= 'INNER JOIN cc_users u ON (p.user_id = u.id) ';
+        // $sql .= 'LEFT JOIN cc_ratings r ON (p.id = r.photo_id) ';
+        // $sql .= 'WHERE r.user_id IS null OR r.user_id != :appraiser_id ';
+
+        $psql = Database::getInstance()->prepare($sql);
+        $psql->bindValue(':appraiser_id', $appraiser_id);
+        $psql->execute();
+        $total = (int) $psql->fetchColumn(0);
+        return $total;
+      } catch (\Exception $e) {
+        print('Error: '. $e->getMessage());
+      }
+    }
+
+    public function unratedPhotos($appraiser_id) {
+      try {
+        $sql = 'SELECT p.id, p.title, p.path FROM cc_ratings r ';
+        $sql .= 'RIGHT join cc_photos p on (p.id = r.photo_id) ';
+        $sql .= 'where p.id not in (select p.id from cc_ratings r ';
+        $sql .= 'inner join cc_photos p on (p.id = r.photo_id) ';
+        $sql .= 'inner join cc_users u ON (u.id = r.user_id) ';
+        $sql .= 'where u.id = ' . $appraiser_id . ') ';
+        $sql .= 'LIMIT 0,1';
+
+        // $sql = 'SELECT p.id, r.user_id, p.title, p.path FROM ' . $this->table . ' p ';
+        // $sql .= 'INNER JOIN cc_users u ON (p.user_id = u.id) ';
+        // $sql .= 'LEFT JOIN cc_ratings r ON (p.id = r.photo_id) ';
+        // $sql .= 'WHERE r.user_id IS null OR r.user_id != :appraiser_id ';
+        // $sql .= 'LIMIT 0,1';
+
+        $psql = Database::getInstance()->prepare($sql);
+        $psql->bindValue(':appraiser_id', $appraiser_id);
+        $psql->execute();
+        $rows = $psql->fetchAll();
+        if (!$rows) return false;
+        $array = array();
+        foreach ($rows as $value) {
+          $array[] = $this->populatePhoto($value);
+        }
+        return $array;
+      } catch (\Exception $e) {
+        print('Error: '. $e->getMessage());
+      }
+
+    }
+
     private function populatePhoto($row)
     {
       $photo = new Photo();

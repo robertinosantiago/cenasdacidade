@@ -55,7 +55,7 @@ try {
             $user->setEmail($userProfile->email);
             $user->setPassword('');
             $user->setPhoto($userProfile->photoURL);
-            $user->setRule('user');
+            $user->setRole('user');
 
             $newUser = UserDao::getInstance()->insert($user);
 

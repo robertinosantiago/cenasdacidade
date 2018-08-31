@@ -36,11 +36,18 @@ if(isset($_GET['e'])) {
 
 if ($user) {
   $loggedIn = $storage->get('loggedIn');
-  $photos = PhotoDao::getInstance()->findByUserId($user['User']['id']);
 
-  $total = PhotoDao::getInstance()->countByUserId($user['User']['id']);
+  if ($user['User']['role'] == 'appraiser') {
+    $photos = PhotoDao::getInstance()->unratedPhotos($user['User']['id']);
+    $total = PhotoDao::getInstance()->countUnratedPhotos($user['User']['id']);
+    echo $twig->render('appraiser.html', array('toast' => $toast, 'user' => $user, 'photos' => $photos, 'total' => $total, 'loggedIn' => $loggedIn));
+  } else {
+    $photos = PhotoDao::getInstance()->findByUserId($user['User']['id']);
+    $total = PhotoDao::getInstance()->countByUserId($user['User']['id']);
 
-  echo $twig->render('dashboard.html', array('toast' => $toast, 'user' => $user, 'photos' => $photos, 'total' => $total, 'loggedIn' => $loggedIn));
+    echo $twig->render('dashboard.html', array('toast' => $toast, 'user' => $user, 'photos' => $photos, 'total' => $total, 'loggedIn' => $loggedIn));
+  }
+
 } else {
   $toast = array('type' => 'info', 'message' => 'Por favor, acesse sua conta.');
   echo $twig->render('login.html', array('toast' => $toast));

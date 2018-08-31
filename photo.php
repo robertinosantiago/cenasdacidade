@@ -1,6 +1,5 @@
 <?php
 $path = $_GET['photo'];
-error_log(__DIR__ . '/photos/'.$path);
 
 $type = exif_imagetype('photos/' . $path); // [] if you don't have exif you could use getImageSize()
 $allowedTypes = array(

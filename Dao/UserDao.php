@@ -74,7 +74,7 @@ class UserDao
         $user->setEmail($row['email']);
         $user->setPassword($row['password']);
         $user->setPhoto($row['photo']);
-        $user->setRule($row['rule']);
+        $user->setRole($row['role']);
         return $user;
     }
 

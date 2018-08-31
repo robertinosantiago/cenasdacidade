@@ -12,7 +12,7 @@ class User
   private $email;
   private $password;
   private $photo;
-  private $rule;
+  private $role;
 
   public function getId() {
     return $this->id;
@@ -62,12 +62,12 @@ class User
     $this->photo = $photo;
   }
 
-  public function getRule() {
-    return $this->rule;
+  public function getRole() {
+    return $this->role;
   }
 
-  public function setRule($rule) {
-    $this->rule = $rule;
+  public function setRole($role) {
+    $this->role = $role;
   }
 
   public function getFullName() {
@@ -84,7 +84,7 @@ class User
         'email' => $this->getEmail(),
         'password' => $this->getPassword(),
         'photo' => $this->getPhoto(),
-        'rule' => $this->getRule()
+        'role' => $this->getRole()
       ]
     ];
   }
