@@ -8,6 +8,7 @@ require_once 'model/Photo.php';
 require_once 'model/Vote.php';
 
 if (!isset($_POST['token']) || empty($_POST['token'])) {
+  http_response_code(404);
   die('Sem token');
 }
 
