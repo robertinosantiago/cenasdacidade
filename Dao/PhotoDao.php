@@ -94,6 +94,20 @@ class PhotoDao
       }
     }
 
+    public function findByRelativeId($id) {
+      try {
+          $sql = 'SELECT * FROM ' . $this->table . ' WHERE relative_id = :id';
+          $psql = Database::getInstance()->prepare($sql);
+          $psql->bindValue(':id', $id);
+          $psql->execute();
+          $row = $psql->fetch(PDO::FETCH_ASSOC);
+          if (!$row) return false;
+          return $this->populatePhoto($row);
+      } catch (\Exception $e) {
+        print('Error: '. $e->getMessage());
+      }
+    }
+
     public function delete($id) {
       try {
           $sql = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
@@ -168,7 +182,7 @@ class PhotoDao
       $photo->setId($row['id']);
       $photo->setTitle($row['title']);
       $photo->setPath($row['path']);
-      $photo->setRelativeId($row['relativeId']);
+      $photo->setRelativeId($row['relative_id']);
       $photo->setUserId($row['user_id']);
       return $photo;
     }
