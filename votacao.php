@@ -8,21 +8,24 @@ require_once 'model/Photo.php';
 require_once 'model/Vote.php';
 
 if (!isset($_POST['token']) || empty($_POST['token'])) {
-  http_response_code(404);
+  http_response_code(400);
   die('Sem token');
 }
 
 if (!isset($_POST['identificacao']) || empty($_POST['identificacao'])) {
+  http_response_code(400);
   die('Sem identificação');
 }
 
 if (!isset($_POST['foto']) || empty($_POST['foto'])) {
+  http_response_code(400);
   die('Sem foto');
 }
 
 $photo = PhotoDao::getInstance()->findByRelativeId($_POST['foto']);
 
 if (!$photo) {
+  http_response_code(404);
   die('Foto inválida');
 }
 
@@ -33,5 +36,8 @@ $vote->setPhotoId($photo->getId());
 $newVote = VoteDao::getInstance()->insert($vote);
 
 if (!$newVote) {
+  http_response_code(403);
   die('Não registrado');
 }
+
+http_response_code(200);
