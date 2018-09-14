@@ -32,7 +32,7 @@ if ($_POST) {
 
       $user->setPassword(password_hash($_POST['password'], PASSWORD_DEFAULT));
       //$user->setPhoto($userProfile->photoURL);
-      $user->setRule('user');
+      $user->setRole('user');
 
       $newUser = UserDao::getInstance()->insert($user);
 
