@@ -3,7 +3,8 @@ include 'vendor/autoload.php';
 include 'config.inc.php';
 require_once 'Dao/PhotoDao.php';
 require_once 'model/Photo.php';
-
+echo "<h1>Inscrições encerradas.</h1>";
+/*
 use Hybridauth\Hybridauth;
 use Hybridauth\Storage\Session;
 use Hybridauth\HttpClient;
@@ -69,3 +70,4 @@ if ($uploadOk == 0) {
         echo "Sorry, there was an error uploading your file.";
     }
 }
+*/

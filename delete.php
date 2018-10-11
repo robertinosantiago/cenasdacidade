@@ -5,7 +5,9 @@ require_once 'Dao/PhotoDao.php';
 use Hybridauth\Storage\Session;
 use Hybridauth\HttpClient;
 
+echo "<h1>Inscrições encerradas.</h1>";
 
+/*
 $storage = new Session();
 $user = $storage->get('user');
 
@@ -27,3 +29,4 @@ if (PhotoDao::getInstance()->delete($photo->getId())) {
   unlink(realpath('photos/'.$photo->getPath()));
   HttpClient\Util::redirect('dashboard.php?e=3');
 }
+*/

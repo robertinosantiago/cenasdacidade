@@ -7,18 +7,20 @@ require_once 'Dao/VoteDao.php';
 require_once 'model/Photo.php';
 require_once 'model/Vote.php';
 
+$_POST = json_decode(file_get_contents("php://input"),true);
+
 if (!isset($_POST['token']) || empty($_POST['token'])) {
-  http_response_code(400);
+  http_response_code(401);
   die('Sem token');
 }
 
 if (!isset($_POST['identificacao']) || empty($_POST['identificacao'])) {
-  http_response_code(400);
+  http_response_code(402);
   die('Sem identificação');
 }
 
 if (!isset($_POST['foto']) || empty($_POST['foto'])) {
-  http_response_code(400);
+  http_response_code(403);
   die('Sem foto');
 }
 
@@ -32,11 +34,12 @@ if (!$photo) {
 $vote = new Vote();
 $vote->setDocument($_POST['identificacao']);
 $vote->setPhotoId($photo->getId());
+$vote->setToken($_POST['token']);
 
 $newVote = VoteDao::getInstance()->insert($vote);
 
 if (!$newVote) {
-  http_response_code(403);
+  http_response_code(405);
   die('Não registrado');
 }
 
